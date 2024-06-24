@@ -1,34 +1,26 @@
+// Importación de módulos y configuración inicial
 import express from "express";
-import router from "./src/routes/task.routes.js";
-import connectDb from "./src/config/db.js";
+import taskrouter from "./src/routes/task.routes.js";
 import TareaEntidad from "./src/models/task.model.js";
-const app = express();
+import morgan from "morgan";
+import helmet from "helmet";
+import cors from "cors";
 
-const PORT = process.env.PORT;
+const app = express(); // Creación de la aplicación Express
+const PORT = process.env.PORT; // Puerto obtenido desde las variables de entorno
 
+// Función asincrónica para inicializar modelos de datos
 async function iniciarModelos() {
-  await TareaEntidad();
+  await TareaEntidad(); // Llama a la función para inicializar el modelo de tarea
 }
 
-app.use("/api", router);
+// Middleware y configuraciones globales
+app.use(express.json()); // Middleware para analizar el cuerpo de las solicitudes JSON
+app.use("/api", taskrouter); // Rutas API definidas en task.routes.js
 
-// app.get("/api", (req, res) =>{
-//     res.send("obteniendo tarea")
-// })
 
-// app.post("/api", (req, res) =>{
-//     res.send("creando tarea")
-// })
-
-// app.patch("/api", (req, res) =>{
-//     res.send("actualizando tarea")
-// })
-
-// app.delete("/api", (req, res) =>{
-//     res.send("borrando tarea")
-// })
-
+// Escucha del servidor en el puerto especificado
 app.listen(PORT, async () => {
-   await iniciarModelos()
+  await iniciarModelos(); // Inicializa los modelos de datos antes de escuchar las conexiones
   console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

@@ -9,11 +9,11 @@ const connectDb = async () => {
       port: process.env.DB_PORT,
       password: process.env.DB_PASSWORD,
     });
-    console.log("conexion exitosa");
-    return connection
+    console.log("Conexión exitosa a la base de datos");
+    return connection;
   } catch (error) {
-    console.log("error al conectar en la base de datos", error);
-    process.exit(1)
+    console.error("Error al conectar en la base de datos", error);
+    process.exit(1);
   }
 };
 
